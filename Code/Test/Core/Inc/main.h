@@ -29,6 +29,7 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -52,8 +53,9 @@ extern "C" {
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
-/* USER CODE BEGIN EFP */
 
+/* USER CODE BEGIN EFP */
+void delay_us(uint32_t microseconds);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
