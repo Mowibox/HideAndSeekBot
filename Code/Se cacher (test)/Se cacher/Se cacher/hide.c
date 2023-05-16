@@ -103,10 +103,12 @@ void Hiding() {
 				if (rightCaptor > 10){
 					TurnAngle(dirWall);;
 				}
-				else if (rightCaptor > 5) {
-					GetCloser(dirWall);
+				else {
+					if (rightCaptor > 5) {
+						GetCloser(dirWall);
+					}
 				}
-				else if (rightCaptor < 3) {
+				if (rightCaptor < 3) {
 					RollAway(dirWall);
 				}
 				else {
@@ -117,10 +119,12 @@ void Hiding() {
 				if (leftCaptor > 10) {
 					TurnAngle(dirWall);
 				}
-				else if (leftCaptor > 5) {
-					GetCloser(dirWall);
+				else {
+					if (leftCaptor > 5) {
+						GetCloser(dirWall);
+					}
 				}
-				else if (leftCaptor < 3) {
+				if (leftCaptor < 3) {
 					RollAway(dirWall);
 				}
 				else {
