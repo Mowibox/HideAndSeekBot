@@ -73,6 +73,7 @@ void SeekAnotherWall() {
 	else {
 		Turn(-90);
 	}
+	isSeekingWall = true;
 	while (isSeekingWall == true) {
 		MoveForward(1);
 		if (frontCaptor < 5) {
