@@ -22,6 +22,15 @@ bool isHidden = false;
 
 
 
+void MoveForward(float time) {
+	//durant time secondes :
+	leftWheel = 1;
+	rightWheel = 1;
+	// on arrete ensuite les roues apres time secondes
+	leftWheel = 0;
+	rightWheel = 0;
+}
+
 void Rotate(int angle) {
 	if (angle > 0) {
 		//temps de rotation des roues à determiner en fonction de l'angle
@@ -38,20 +47,12 @@ void Rotate(int angle) {
 
 void TurnAngle(int dir) { //fonction pour faire tourner le robot autour d'un angle d'un mur
 	if (dir == 1) {
-		Rotate(45);
+		Rotate(90);
 		MoveForward(1);
-		if (rightCaptor > 10) {
-			Rotate(45);
-		}
 	}
 	else {
-		Rotate(-45);
+		Rotate(-90);
 		MoveForward(1);
-		if (leftCaptor > 10) {
-			Rotate(-45);
-		}
-
-
 	}
 }
 void GetCloser(int dir) {
@@ -62,19 +63,18 @@ void RollAway(int dir) {
 
 }
 
-void MoveForward(float time) {
-	//durant time secondes :
-	leftWheel = 1;
-	rightWheel = 1;
-	// on arrete ensuite les roues apres time secondes
-	leftWheel = 0;
-	rightWheel = 0;
-}
+
 
 void SeekAnotherWall() {
-	Turn(rand(360));
-	while (isSeekingWall = true) {
-		moveForward(1);
+	int dir = rand()%2;
+	if (dir == 1) {
+		Turn(90);
+	}
+	else {
+		Turn(-90);
+	}
+	while (isSeekingWall == true) {
+		MoveForward(1);
 		if (frontCaptor < 5) {
 			isSeekingWall = false;
 		}
@@ -88,26 +88,22 @@ void Hiding() {
 
 
 	while (isHidden == false) {
-		while (nbrWall =! nbrWallExpected) { //cherche le mur
-			
+		while (nbrWall != nbrWallExpected) { //cherche le mur
+			MoveForward(1);
 			if (frontCaptor < 5){
 				nbrWall += 1;
-				Turn(rand()%360);
+				SeekAnotherWall();
 			}
 		}
-		if (dirWall == 1) { Rotate(-45); }
-		else { TurnRight(45); }
+		if (dirWall == 1) { Rotate(-90); }
+		else { Rotate(90); }
 		isSeekingPos = true;
 		while (isSeekingPos == true) {
 			if (dirWall == 1){
-				if (rightCaptor > 10 && nbrTurned =! 4){
-					TurnAngle(dirWall);
-					nbrTurned += 1;
+				if (rightCaptor > 10){
+					TurnAngle(dirWall);;
 				}
-				else {
-					SeekAnotherWall();
-				}
-				if (rightCaptor > 5) {
+				else if (rightCaptor > 5) {
 					GetCloser(dirWall);
 				}
 				else if (rightCaptor < 3) {
@@ -118,14 +114,10 @@ void Hiding() {
 				}
 			}
 			if (dirWall == 0) {
-				if (leftCaptor > 10 && nbrTurned =! 4) {
+				if (leftCaptor > 10) {
 					TurnAngle(dirWall);
-					nbrTurned = nbrTurned + 1;
 				}
-				else {
-					SeekAnotherWall();
-				}
-				if (leftCaptor > 5) {
+				else if (leftCaptor > 5) {
 					GetCloser(dirWall);
 				}
 				else if (leftCaptor < 3) {
@@ -137,8 +129,8 @@ void Hiding() {
 				
 			}
 			if (frontCaptor < 3) {
-				isSeekingPos = 0;
-				isHidden = 1;
+				isSeekingPos = false;
+				isHidden = true;
 			}
 		}
 	}
