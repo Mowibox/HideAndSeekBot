@@ -1,8 +1,12 @@
 #include "fichier.h"
 #include <stdbool.h>
 
+// Variables qui viennent des capteurs (rédaction à modifier)
+float capteur_IR;
+float capteur_US
 
 void scan(int g, int d){
+	float i;
 	for (i = g; i <= d; i += ((d-g)/6) ) {
 		if(capteurIR >= intensite_max){
 			intensite_max = capteurIR;
@@ -13,9 +17,9 @@ void scan(int g, int d){
 
 
 void scan_et_tourne(int g,int d){  //variables pas encore définies ; paramètres : plage de rotation
-	scan(int g, int d);
+	scan(g, d);
 	
-	if (angle_imax =! 0 ){  // est la valeur initiale : la vmaleur max n'a pas changée
+	if (angle_imax != 0 ){  // est la valeur initiale : la vmaleur max n'a pas changée
 				tourner_angle_correspondant(angle_imax);
 				angle_servomoteur = 0;
 	}
@@ -57,9 +61,7 @@ void chercher(){
 	float intensite_max ;
 	float angle_imax ;
 	float valeur_min_IR = ; // à déterminer 
-	float valeur_robot_trouve = ; //à déterminer
-	bool scan_en_cours = false; 
-	bool recherche_infrarouge_enclanchée = false;
+	float valeur_robot_trouve = ; //à déterminer 
 	
 	while ( capteurIR < valeur_robot_trouve){
 
@@ -70,8 +72,7 @@ void chercher(){
 		// SCAN IR :
 
 		
-		if (capteurIR >= valeur_min_IR AND recherche_infrarouge_enclanchée = false) {
-			bool recherche_infrarouge_enclanchee = true;	// inutile dans le code actuel mais je garde l'idée au cas où j'en ai besoin 
+		if (capteurIR >= valeur_min_IR) {
 			arreter_les_roues();
 			arreter_rotation_servomoteur();
 			intensite_max = capteurIR ; 					 
@@ -85,7 +86,7 @@ void chercher(){
 			}
 
 			petite_danse();
-			end; // arrêter le programme
+			exit(0); // arrêter le programme
 		}
 
 		
@@ -97,12 +98,12 @@ void chercher(){
 
 			if (capteur_US_droit == 1 AND capteur_US_gauche ==0 ){
 				tourner_a_gauche();
-				longer_mur(); // ENCORE UN PBBBBBBBBBBBBBBB j'en peux plus : dans longer mur : il doit scanner
+				longer_mur(); 
 			}
 
 			if (capteur_US_gauche ==1 AND capteur_US_droit == 0){
 				tourner_a_droite();
-				longer_mur(); // ENCORE UN PBBBBBBBBBBBBBBB j'en peux plus : dans longer mur : il doit scanner
+				longer_mur(); 
 			}
 		
 			if (capteur_US_right ==1 AND capteur_US_ left == 1){
