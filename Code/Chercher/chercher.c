@@ -83,7 +83,7 @@ void chercher(){
 			tourner_angle_correspondant(angle_servomoteur);
 			reinitialiser_pos_servomoteur(); 				// prendre code sur internet 
 			angle_imax = 0;
-			scan_et_tourne();
+			scan_et_tourne(-90,90); // tour de 180°
 
 			while ( capteur_IR < valeur_robot_trouve){
 				avancer_tout_droit(2);					// problème : et si il ne le trouve pas ? // pdt 2 sec
