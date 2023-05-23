@@ -16,7 +16,7 @@ void scan(int g, int d){
 }
 
 
-void scan_et_tourne(int g,int d){  //variables pas encore définies ; paramètres : plage de rotation
+void scan_et_tourne(g,d){  //variables pas encore définies ; paramètres : plage de rotation
 	scan(g, d);
 	
 	if (angle_imax != 0 ){  // est la valeur initiale : la vmaleur max n'a pas changée
