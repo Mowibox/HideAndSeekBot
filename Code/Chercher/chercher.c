@@ -3,13 +3,17 @@
 
 // Variables qui viennent des capteurs (rédaction à modifier)
 float capteur_IR;
-float capteur_US
+float capteur_US_front;
+float capteur_US_droit;
+float capteur_US_gauche;
+
+
 
 void scan(int g, int d){
 	float i;
 	for (i = g; i <= d; i += ((d-g)/6) ) {
-		if(capteurIR >= intensite_max){
-			intensite_max = capteurIR;
+		if(capteur_IR >= intensite_max){
+			intensite_max = capteur_IR;
 			angle_imax = angle_servomoteur;
 		}
 	}
@@ -63,7 +67,7 @@ void chercher(){
 	float valeur_min_IR = ; // à déterminer 
 	float valeur_robot_trouve = ; //à déterminer 
 	
-	while ( capteurIR < valeur_robot_trouve){
+	while ( capteur_IR < valeur_robot_trouve){
 
 		avancer_tout_droit(3); //pendant trois secondes (à voir)
 		arreter_les_roues(); // pas necessaire car on n'avance plus mais on sait jamais c'est là
@@ -72,16 +76,16 @@ void chercher(){
 		// SCAN IR :
 
 		
-		if (capteurIR >= valeur_min_IR) {
+		if (capteur_IR >= valeur_min_IR) {
 			arreter_les_roues();
 			arreter_rotation_servomoteur();
-			intensite_max = capteurIR ; 					 
+			intensite_max = capteur_IR ; 					 
 			tourner_angle_correspondant(angle_servomoteur);
 			reinitialiser_pos_servomoteur(); 				// prendre code sur internet 
 			angle_imax = 0;
 			scan_et_tourne();
 
-			while ( capteurIR < valeur_robot_trouve){
+			while ( capteur_IR < valeur_robot_trouve){
 				avancer_tout_droit(2);					// problème : et si il ne le trouve pas ? // pdt 2 sec
 			}
 
@@ -94,7 +98,7 @@ void chercher(){
 		// Scan US
 
 
-		if (capteur_US_front == 1 AND capteurIR < valeur_robot_trouve){
+		if (capteur_US_front == 1 AND capteur_IR < valeur_robot_trouve){
 
 			if (capteur_US_droit == 1 AND capteur_US_gauche ==0 ){
 				tourner_a_gauche();
@@ -106,7 +110,7 @@ void chercher(){
 				longer_mur(); 
 			}
 		
-			if (capteur_US_right ==1 AND capteur_US_ left == 1){
+			if (capteur_US_droit ==1 AND capteur_US_gauche == 1){
 				demi_tour(); 
 			}
 		}
