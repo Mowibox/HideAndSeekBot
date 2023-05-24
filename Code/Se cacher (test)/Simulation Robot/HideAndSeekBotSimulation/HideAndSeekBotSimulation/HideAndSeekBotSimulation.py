@@ -162,7 +162,7 @@ while running:
          bot_y += 1
 
 
-        # Vérifier s'il y a une collision avec un mur
+        # Collisions
     if pygame.Rect(bot_x, bot_y, 20, 20).colliderect(h_obstacle_1) or \
                 pygame.Rect(bot_x, bot_y, 20, 20).colliderect(h_obstacle_2) or \
                 pygame.Rect(bot_x, bot_y, 20, 20).colliderect(h_obstacle_3) or \
@@ -192,15 +192,12 @@ while running:
 
             # Vérifier si le robot a rencontré suffisamment de murs pour se cacher
     if wall_encountered >= wall_expected:
-         ind_angle = True
-    
-                # Choisir une nouvelle direction aléatoire sans retourner en arrière
+         find_angle = True       
         
-    
-          
-
+              
     clock.tick(100)
-    pygame.draw.circle(window, (255, 0, 0), (bot_x, bot_y), 20)  
+    pygame.draw.circle(window, (255, 0, 150), (bot_x, bot_y), 20)  
+    generate_labyrinth()
     pygame.display.flip()
     
 
