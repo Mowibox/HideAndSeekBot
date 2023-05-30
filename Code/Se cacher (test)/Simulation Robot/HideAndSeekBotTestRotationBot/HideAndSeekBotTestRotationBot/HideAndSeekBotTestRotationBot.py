@@ -1,4 +1,5 @@
 import pygame
+import random
 import math
 
 # Initialisation de Pygame
@@ -30,7 +31,44 @@ keys = {
 
 # Facteurs de vitesse
 movement_speed = 0.1  # Vitesse de déplacement du triangle
-rotation_speed = 0.2  # Vitesse de rotation du triangle
+rotation_speed = 0.1  # Vitesse de rotation du triangle
+
+# Dimensions des bordures
+border_thickness = 10
+
+# Dimensions des parois en forme de L
+wall_size = 100
+wall_thickness = 10
+
+# Génération des parois du labyrinthe
+walls = []
+for i in range(4):
+    if i == 0:
+        # Paroi supérieure
+        wall_x = border_thickness
+        wall_y = border_thickness
+        wall_width = WIDTH - 2 * border_thickness
+        wall_height = wall_thickness
+    elif i == 1:
+        # Paroi inférieure
+        wall_x = border_thickness
+        wall_y = HEIGHT - border_thickness - wall_height
+        wall_width = WIDTH - 2 * border_thickness
+        wall_height = wall_thickness
+    elif i == 2:
+        # Paroi gauche
+        wall_x = border_thickness
+        wall_y = border_thickness + wall_thickness
+        wall_width = wall_thickness
+        wall_height = HEIGHT - 2 * border_thickness - 2 * wall_thickness
+    elif i == 3:
+        # Paroi droite
+        wall_x = WIDTH - border_thickness - wall_width
+        wall_y = border_thickness + wall_thickness
+        wall_width = wall_thickness
+        wall_height = HEIGHT - 2 * border_thickness - 2 * wall_thickness
+
+    walls.append(pygame.Rect(wall_x, wall_y, wall_width, wall_height))
 
 # Fonction pour effectuer une rotation sur un point (x, y) autour d'un autre point (cx, cy)
 def rotate(point, angle, cx, cy):
@@ -46,9 +84,17 @@ def rotate(point, angle, cx, cy):
 def move(distance):
     global x, y
     rad_angle = math.radians(angle)
-    new_x = x - distance * math.cos(rad_angle + math.pi / 2)  # Déplacement perpendiculaire inversé
-    new_y = y - distance * math.sin(rad_angle + math.pi / 2)  # Déplacement perpendiculaire inversé
-    x, y = new_x, new_y
+    new_x = x + distance * math.sin(rad_angle)  # Déplacement perpendiculaire
+    new_y = y - distance * math.cos(rad_angle)  # Déplacement perpendiculaire
+    if not collides_with_walls(new_x, new_y):
+        x, y = new_x, new_y
+
+# Fonction pour vérifier les collisions avec les parois du labyrinthe
+def collides_with_walls(new_x, new_y):
+    for wall in walls:
+        if wall.collidepoint(new_x, new_y):
+            return True
+    return False
 
 # Boucle principale du jeu
 running = True
@@ -72,22 +118,29 @@ while running:
             elif event.key == pygame.K_d:
                 keys[pygame.K_d] = False
 
-    # Vérifier les touches enfoncées pour le mouvement et la rotation
+    # Mouvement et rotation
     if keys[pygame.K_z]:
-        move(movement_speed)  # Déplacer le triangle vers l'avant
+        move(movement_speed)
     if keys[pygame.K_q]:
-        angle -= rotation_speed  # Faire pivoter le triangle dans le sens horaire
+        angle -= rotation_speed
     if keys[pygame.K_d]:
-        angle += rotation_speed  # Faire pivoter le triangle dans le sens anti-horaire
+        angle += rotation_speed
 
     # Effacer l'écran
     screen.fill(BLACK)
 
+    # Dessiner les bordures
+    pygame.draw.rect(screen, WHITE, (0, 0, WIDTH, border_thickness))  # Bordure supérieure
+    pygame.draw.rect(screen, WHITE, (0, 0, border_thickness, HEIGHT))  # Bordure gauche
+    pygame.draw.rect(screen, WHITE, (WIDTH - border_thickness, 0, border_thickness, HEIGHT))  # Bordure droite
+    pygame.draw.rect(screen, WHITE, (0, HEIGHT - border_thickness, WIDTH, border_thickness))  # Bordure inférieure
+
+    # Dessiner les parois du labyrinthe
+    for wall in walls:
+        pygame.draw.rect(screen, WHITE, wall)
+
     # Coordonnées des sommets du triangle dans son repère propre
     triangle_points = [(0, -30), (15, 15), (-15, 15)]
-
-    # Calculer l'arête la plus courte
-    shortest_edge = min(math.dist(triangle_points[0], triangle_points[1]), math.dist(triangle_points[1], triangle_points[2]), math.dist(triangle_points[2], triangle_points[0]))
 
     # Calculer le centre de l'arête la plus courte
     center_x = (triangle_points[1][0] + triangle_points[2][0]) / 2
