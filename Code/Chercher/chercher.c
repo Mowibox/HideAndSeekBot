@@ -73,7 +73,7 @@ void chercher(){
 		arreter_les_roues(); // pas necessaire car on n'avance plus mais on sait jamais c'est là
 		
 
-		// SCAN IR :
+		// SCAN IR : encore à modifier purée
 
 		
 		if (capteur_IR >= valeur_min_IR) {
