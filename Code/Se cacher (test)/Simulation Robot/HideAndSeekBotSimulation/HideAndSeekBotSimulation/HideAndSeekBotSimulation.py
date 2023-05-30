@@ -16,6 +16,7 @@ pygame.display.set_caption("HideAndSeekBotSimulation")
 
 bot_x = largeur_fenetre // 2  # Position initiale du robot (au centre de la fenêtre)
 bot_y = hauteur_fenetre // 2
+
 bot_dir = random.choice(['up', 'down', 'left', 'right','up-left','up-right','down-left','down-right'])  # Direction initiale aléatoire
 wall_encountered = 0  # Compteur de murs rencontrés
 wall_expected = random.randint(3, 4)  # Nombre de murs nécessaires pour se cacher
@@ -131,14 +132,33 @@ def generate_labyrinth():
 #boucle principale
 running = True
 while running:
+
+    US_up = pygame.Rect(bot_x -8 ,bot_y - 30, 15,10)
+    US_down = pygame.Rect(bot_x - 8,bot_y +20, 15,10)
+    US_left = pygame.Rect(bot_x - 30,bot_y - 8, 10,15)
+    US_right = pygame.Rect(bot_x + 20,bot_y -8 ,10,15)  
+
+    while find_angle:
+        if last_bot_dir == 'left' or \
+            last_bot_dir == 'down-left' or\
+            last_bot_dir == 'up-left' :
+            bot_x -=1
+        elif last_bot_dir == 'right' or \
+            last_bot_dir == 'down-right' or\
+            last_bot_dir == 'up-right' :
+            bot_x += 1
+        elif last_bot_dir == 'up':
+            bot_y -=1
+        elif last_bot_dir == 'down':
+            bot_y +=1
+
+
+
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False 
 
-    
-    
-            # Mouvement du robot
-    pygame.draw.circle(window, (0, 0, 0), (bot_x, bot_y), 20)
         # Mode "avance tout droit"
     if bot_dir == 'up':
         bot_y -= 1
@@ -162,42 +182,81 @@ while running:
          bot_y += 1
 
 
-        # Collisions
-    if pygame.Rect(bot_x, bot_y, 20, 20).colliderect(h_obstacle_1) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(h_obstacle_2) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(h_obstacle_3) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(h_obstacle_4) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(v_obstacle_1) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(v_obstacle_2) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(v_obstacle_3) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(v_obstacle_4) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(border_east) or \
-                pygame.Rect(bot_x, bot_y, 20, 20).colliderect(border_south):
+        # Collisions ['up', 'down', 'left', 'right','up-left','up-right','down-left','down-right']
+    if US_up.colliderect(h_obstacle_1) or \
+        US_up.colliderect(h_obstacle_2) or \
+        US_up.colliderect(h_obstacle_3) or \
+        US_up.colliderect(h_obstacle_4) or \
+        US_up.colliderect(border_north):
          wall_encountered += 1
-         directions_possibles = ['up', 'down', 'left', 'right','up-left','up-right','down-left','down-right']
-         directions_possibles.remove(bot_dir)
+         directions_possibles = [ 'down', 'left', 'right','down-left','down-right']
+         last_bot_dir = bot_dir;
          bot_dir = random.choice(directions_possibles)
-    if pygame.Rect(bot_x, bot_y, 20, 20).colliderect(border_north_c):
+         bot_y += 5
+
+    if US_down.colliderect(h_obstacle_1) or \
+        US_down.colliderect(h_obstacle_2) or \
+        US_down.colliderect(h_obstacle_3) or \
+        US_down.colliderect(h_obstacle_4) or \
+        US_down.colliderect(border_south):
         wall_encountered += 1
-        bot_y +=5
-        directions_possibles = ['up', 'down', 'left', 'right','up-left','up-right','down-left','down-right']
-        directions_possibles.remove(bot_dir)
+        directions_possibles = ['up', 'left', 'right','up-left','up-right']
+        last_bot_dir = bot_dir;
         bot_dir = random.choice(directions_possibles)
-    if pygame.Rect(bot_x, bot_y, 20, 20).colliderect(border_west_c):
+        bot_y -= 5
+
+    if US_left.colliderect(v_obstacle_1) or \
+        US_left.colliderect(v_obstacle_2) or \
+        US_left.colliderect(v_obstacle_3) or \
+        US_left.colliderect(v_obstacle_4) or \
+        US_left.colliderect(border_west):
         wall_encountered += 1
-        bot_x +=5
-        directions_possibles = ['up', 'down', 'left', 'right','up-left','up-right','down-left','down-right']
-        directions_possibles.remove(bot_dir)
+        directions_possibles = ['up', 'down', 'right','up-right','down-right']
+        last_bot_dir = bot_dir;
         bot_dir = random.choice(directions_possibles)
+        bot_x += 5
+
+    if US_right.colliderect(v_obstacle_1) or \
+        US_right.colliderect(v_obstacle_2) or \
+        US_right.colliderect(v_obstacle_3) or \
+        US_right.colliderect(v_obstacle_4) or \
+        US_right.colliderect(border_east):
+        wall_encountered += 1
+        directions_possibles = ['up', 'down', 'left','up-left','down-left']
+        last_bot_dir = bot_dir;
+        bot_dir = random.choice(directions_possibles)
+        bot_x -= 5
 
             # Vérifier si le robot a rencontré suffisamment de murs pour se cacher
     if wall_encountered >= wall_expected:
          find_angle = True       
         
-              
+           
     clock.tick(100)
-    pygame.draw.circle(window, (255, 0, 150), (bot_x, bot_y), 20)  
+    window.fill((0,0,0))
     generate_labyrinth()
+    pygame.draw.circle(window, (255, 0, 150), (bot_x, bot_y), 20)  
+    if bot_dir == 'up':
+        pygame.draw.rect(window,(50,255,50), US_up)
+        pygame.draw.rect(window,(50,255,50), US_left)
+        #pygame.draw.rect(window,(50,255,50), US_down)
+        pygame.draw.rect(window,(50,255,50), US_right)
+    if bot_dir == 'left':
+        pygame.draw.rect(window,(50,255,50), US_up)
+        pygame.draw.rect(window,(50,255,50), US_left)
+        pygame.draw.rect(window,(50,255,50), US_down)
+        #pygame.draw.rect(window,(50,255,50), US_right)
+    if bot_dir == 'down':
+        #pygame.draw.rect(window,(50,255,50), US_up)
+        pygame.draw.rect(window,(50,255,50), US_left)
+        pygame.draw.rect(window,(50,255,50), US_down)
+        pygame.draw.rect(window,(50,255,50), US_right)
+    if bot_dir == 'right':
+        pygame.draw.rect(window,(50,255,50), US_up)
+        #pygame.draw.rect(window,(50,255,50), US_left)
+        pygame.draw.rect(window,(50,255,50), US_down)
+        pygame.draw.rect(window,(50,255,50), US_right)
+    
     pygame.display.flip()
     
 
