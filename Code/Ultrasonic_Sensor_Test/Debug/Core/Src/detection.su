@@ -1,0 +1,3 @@
+../Core/Src/detection.c:6:6:detection_L	16	static
+../Core/Src/detection.c:49:6:detection_F	16	static
+../Core/Src/detection.c:93:6:detection_R	16	static

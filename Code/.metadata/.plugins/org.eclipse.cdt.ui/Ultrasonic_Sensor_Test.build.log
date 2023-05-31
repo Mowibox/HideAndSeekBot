@@ -1,4 +1,4 @@
-00:16:17 **** Incremental Build of configuration Debug for project Ultrasonic_Sensor_Test ****
+11:41:57 **** Incremental Build of configuration Debug for project Ultrasonic_Sensor_Test ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F401xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc -o "Ultrasonic_Sensor_Test.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Mowibox\Documents\Hika\ENSEA\S6\Projet d_electronique\HideAndSeekBot\Code\Ultrasonic_Sensor_Test\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Ultrasonic_Sensor_Test.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
@@ -7,11 +7,11 @@ Finished building target: Ultrasonic_Sensor_Test.elf
 arm-none-eabi-size   Ultrasonic_Sensor_Test.elf 
 arm-none-eabi-objdump -h -S  Ultrasonic_Sensor_Test.elf  > "Ultrasonic_Sensor_Test.list"
    text	   data	    bss	    dec	    hex	filename
-   8004	     20	   1636	   9660	   25bc	Ultrasonic_Sensor_Test.elf
+   8508	     20	   1652	  10180	   27c4	Ultrasonic_Sensor_Test.elf
 Finished building: default.size.stdout
  
 Finished building: Ultrasonic_Sensor_Test.list
  
 
-00:16:19 Build Finished. 0 errors, 0 warnings. (took 1s.724ms)
+11:41:59 Build Finished. 0 errors, 0 warnings. (took 2s.795ms)
 
