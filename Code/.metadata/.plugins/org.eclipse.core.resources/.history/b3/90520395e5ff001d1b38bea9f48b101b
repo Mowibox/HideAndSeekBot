@@ -1,0 +1,4 @@
+void detection_F(void);
+void detection_L(void);
+void detection_R(void);
+

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pygame
 import random
 from pygame.locals import *
@@ -14,15 +15,15 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("HideAndSeekBotSimulation")
 
-bot_x = 500 # Position initiale du robot (au centre de la fenêtre)
+bot_x = 500 # Position initiale du robot (au centre de la fenï¿½tre)
 bot_y = 500
 
 bot_dir = random.choice(['up', 'down', 'left', 'right','up-left','up-right','down-left','down-right'])
 #bot_dir = 'up' 
 old_captor = ''
 last_bot_dir = ''
-wall_encountered = 0  # Compteur de murs rencontrés
-wall_expected = random.randint(1, 4)  # Nombre de murs nécessaires pour se cacher
+wall_encountered = 0  # Compteur de murs rencontrï¿½s
+wall_expected = random.randint(1, 4)  # Nombre de murs nï¿½cessaires pour se cacher
 find_angle = False  # Indicateur pour le mode "cherche un coin"
 
 mov = 20
@@ -83,7 +84,7 @@ def generate_labyrinth():
     pygame.draw.rect(window, (255, 255, 255), border_east)
     pygame.draw.rect(window, (255, 255, 255), border_west)
 
-# Coordonnées des murs
+# Coordonnï¿½es des murs
     
 
 #initialisation des rectangle horizontaux
@@ -143,7 +144,7 @@ def generate_labyrinth():
     pygame.draw.rect(window, (255, 255, 255), v_obstacle_4)  
     return (v_obstacle_1,v_obstacle_2,v_obstacle_3,v_obstacle_4)
 
-# Création de la bordure du jeu
+# Crï¿½ation de la bordure du jeu
 (v_obstacle_1,v_obstacle_2,v_obstacle_3,v_obstacle_4) = generate_labyrinth()
 direction = randint(0,1)
 
@@ -1040,7 +1041,7 @@ while running:
             bot_x -= 5
             
 
-                # Vérifier si le robot a rencontré suffisamment de murs pour se cacher
+                # Vï¿½rifier si le robot a rencontrï¿½ suffisamment de murs pour se cacher
         if wall_encountered >= wall_expected:
              isFindingWall = False
              bot_dir = last_bot_dir

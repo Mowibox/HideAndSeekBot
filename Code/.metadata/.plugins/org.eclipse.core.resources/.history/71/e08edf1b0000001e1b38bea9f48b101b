@@ -1,0 +1,97 @@
+#include "detection.h"
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_tim.h"
+
+extern TIM_HandleTypeDef htim1;
+
+GPIO_PinState Pinstate;
+int debut,fin;
+
+void USdetection_L(){
+	//Impulsion de 10us envoyee par TRIG
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+	HAL_Delay(10);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+
+	HAL_Delay(1);
+
+	//Reception de l'impulsion par ECHO
+	Pinstate = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
+
+	//Test 1 : On eteint la LED lorsque que Echo detecte un front
+	if(Pinstate == GPIO_PIN_RESET){
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	}
+	else{
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+
+	}
+
+	//On releve la duree du front montant
+	debut = __HAL_TIM_GET_COUNTER(&htim1);
+
+	//On releve le temps final tant que le ECHO est a l'etat haut
+	while(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET){
+		fin = __HAL_TIM_GET_COUNTER(&htim1);
+	}
+
+	//Duree inferieure a 1ms = assez proche du capteur -> clignotement de LED
+	if (fin-debut < 1){
+		for(int i=0;i<9;i++){
+			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+			HAL_Delay(75);
+		}
+	}
+	else{
+	}
+
+	//Attente avant re-detection
+	//HAL_Delay(1000);
+
+}
+
+
+void USdetection_R(){
+	//Impulsion de 10us envoyee par TRIG
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
+	HAL_Delay(10);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
+
+	HAL_Delay(1);
+
+	//Reception de l'impulsion par ECHO
+	Pinstate = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10);
+
+	//Test 1 : On eteint la LED lorsque que Echo detecte un front
+	if(Pinstate == GPIO_PIN_RESET){
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	}
+	else{
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+
+	}
+
+	//On releve la duree du front montant
+	debut = HAL_GetTick();
+
+	//On releve le temps final tant que le ECHO est a l'etat haut
+	while(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10) == GPIO_PIN_SET){
+		fin = HAL_GetTick();
+	}
+
+	//Duree inferieure a 1ms = assez proche du capteur -> clignotement de LED
+	if (fin-debut < 1){
+		for(int i=0;i<9;i++){
+			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+			HAL_Delay(75);
+		}
+	}
+	else{
+	}
+
+	//Attente avant re-detection
+	//HAL_Delay(1000);
+
+}
+
