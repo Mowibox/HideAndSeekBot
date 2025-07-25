@@ -1,9 +1,9 @@
-Code/Ultrasonic_Sensor_Test/Debug/** -linguist-vendored
-Code/Ultrasonic_Sensor_Test/Debug/** -linguist-detectable=false
-Code/Ultrasonic_Sensor_Test/Drivers/** -linguist-vendored
-Code/Ultrasonic_Sensor_Test/Drivers/** -linguist-detectable=false
+Code/Ultrasonic_Sensor_Test/Debug/** linguist-vendored
+Code/Ultrasonic_Sensor_Test/Debug/** linguist-detectable=false
+Code/Ultrasonic_Sensor_Test/Drivers/** linguist-vendored
+Code/Ultrasonic_Sensor_Test/Drivers/** linguist-detectable=false
 
-Code/Final_Code/Debug/** -linguist-vendored
-Code/Final_Code/Debug/** -linguist-detectable=false
-Code/Final_Code/Drivers/** -linguist-vendored
-Code/Final_Code/Drivers/** -linguist-detectable=false
+Code/Final_Code/Debug/** linguist-vendored
+Code/Final_Code/Debug/** linguist-detectable=false
+Code/Final_Code/Drivers/** linguist-vendored
+Code/Final_Code/Drivers/** linguist-detectable=false
